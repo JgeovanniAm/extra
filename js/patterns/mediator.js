@@ -1,28 +1,26 @@
 // Subscribe Publish
-const Mediator = (function () {
+const Mediator = function () {
   const TOPICS = {};
-  
-  return class Mediator {
-
-    static Subscribe(topic, callback) {
+  return {
+    Subscribe: function (topic, callback) {
       if (!topic) console.log('Invalid topic');
       if (!callback || typeof callback !== 'function') console.log('Invalid callback');
       // topics does not exists
       if (!TOPICS[topic]) TOPICS[topic] = [];
       // register the callback
       TOPICS[topic].push(callback);
-    };
-
-    static Publish(topic, data) {
+    },
+    Publish: function (topic, data) {
       if (!TOPICS[topic]) {
         console.log('Invalid topic')
         return false
       };
       TOPICS[topic].forEach(callback => callback(data));
-    };
+    }
   }
-})();
+};
 
+console.log(Subscribe)
 
 Mediator.Subscribe('persona', (data) => {
   console.log(data)
@@ -33,12 +31,12 @@ Mediator.Subscribe('que paso', (data) => {
 });
 
 
-window.onclick = ()=> {
-  Mediator.Publish('persona', { name: 'jimmy' , age: 38})
+window.onclick = () => {
+  Mediator.Publish('persona', { name: 'jimmy', age: 38 })
 }
 
-window.onload = ()=> {
-  Mediator.Publish('que paso', { name: 'eva' , age: 13})
+window.onload = () => {
+  Mediator.Publish('que paso', { name: 'eva', age: 13 })
 }
 
 
@@ -62,21 +60,21 @@ class Participant {
   }
 }
 
-let Chatroom = function() {
+let Chatroom = function () {
   let participants = {};
 
-  return { 
-    register: function(participant) {
+  return {
+    register: function (participant) {
       participants[participant.name] = participant;
       participant.chatroom = this;
       console.log(this, participants)
     },
-  
-    send: function(message, from, to) {
+
+    send: function (message, from, to) {
       if (to) {                      // single message
-        to.receive(message, from);  
+        to.receive(message, from);
       } else {                       // broadcast message
-        for (let key in participants) {   
+        for (let key in participants) {
           if (participants[key] !== from) {
             participants[key].receive(message, from);
           }
@@ -88,8 +86,8 @@ let Chatroom = function() {
 
 function run() {
   let yoko = new Participant('Yoko'),
-      ringo = new Participant('Ringo'),
-      chatroom = new Chatroom();
+    ringo = new Participant('Ringo'),
+    chatroom = new Chatroom();
 
   chatroom.register(yoko);
   chatroom.register(ringo);
