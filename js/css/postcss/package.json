@@ -7,7 +7,7 @@
     "lint": "gulp lint"
   },
   "dependencies": {
-    "postcss": "^7.0.14"
+    "postcss": "^7.0.36"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.6",
